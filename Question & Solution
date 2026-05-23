@@ -1,0 +1,52 @@
+Ques:-
+
+A teammate has added the transactions dataset to the xFusionCorp Industries fraud-detection repository, but it was committed directly to Git instead of being tracked with DVC. Bring the repository in line with the team standard—every dataset under data/ must be tracked by DVC, not by Git.
+
+1. A project exists at /root/code/fraud-detection/ with DVC already initialised. The dataset data/raw/transactions.csv is currently tracked by Git, and the team standard requires DVC to own it instead.
+
+2. Stop Git from tracking the dataset without deleting it from disk.
+
+3. Track the same dataset with DVC so a .dvc pointer file is produced and data/raw/.gitignore excludes the dataset itself.
+
+4. Stage the new .dvc pointer and the new .gitignore, then record a Git commit with the message Track transactions dataset with DVC.
+
+Once tracking is moved to DVC, the DVC TRACKED section in the EXPLORER panel will list the dataset, confirming the extension recognises it as a DVC-managed file.
+
+
+
+
+Soln:-
+
+Step 1: Navigate to the repo
+
+cd /root/code/fraud-detection
+
+
+
+Step 2: Stop Git from tracking the dataset (Remove the file from Git’s index but keep it on disk)
+
+git rm --cached data/raw/transactions.csv
+
+
+
+Step 3: Track the dataset with DVC
+
+dvc add data/raw/transactions.csv
+
+---
+This will:
+-> Create a pointer file data/raw/transactions.csv.dvc
+-> Add an entry in data/raw/.gitignore so the actual CSV isn’t tracked by Git anymore
+---
+
+
+
+Step 4: Stage the changes
+
+git add data/raw/transactions.csv.dvc data/raw/.gitignore
+
+
+
+Step 5: Commit with the required message
+
+git commit -m "Track transactions dataset with DVC"
